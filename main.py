@@ -199,7 +199,7 @@ if args.token and args.url:
         elif command == "import hosts":
             import_hosts()
         elif command == "author":
-            print("Created by Udeus")
+            print("Created by Andrzej Pietryga")
             print("Github: https://github.com/Udeus/")
         elif command == "exit":
             print("Closing the script...")
