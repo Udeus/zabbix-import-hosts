@@ -7,11 +7,18 @@ terminal_width = os.get_terminal_size().columns
 
 api_url = None
 api_token = None
+help_command = [["help", "Show all commands"], ["groups", "Show all groups and ID"], ["hosts", "Show all hosts and ID"],
+                ["templates", "Show all templates and ID"], ["template", "Show ID one template"],
+                ["proxies", "Show all proxies"], ["import hosts", "Import hosts from file to Zabbix server"],
+                ["author", "About author"], ["exit", "Close script"]]
 
 parser = argparse.ArgumentParser(description="Zabbix import host | More info: https://github.com/Udeus/zabbix-import-hosts/")
 parser.add_argument("--url", type=str, help="Zabbix url address")
 parser.add_argument("--token", type=str, help="API token")
 args = parser.parse_args()
+
+print(tabulate(help_command, headers=["Command", "Description"], tablefmt="psql"))
+print("How to use: https://github.com/Udeus/zabbix-import-hosts")
 
 
 def connect_api(api_date):
@@ -191,8 +198,7 @@ if args.token and args.url:
 
         # Commands
         if command == "help":
-            commands = [["help", "Show all commands"], ["groups", "Show all groups and ID"], ["templates", "Show all templates and ID"], ["template", "Show ID one template"], ["proxies", "Show all proxies"], ["import hosts", "Import hosts from file to Zabbix server"], ["author", "About author"], ["exit", "Close script"]]
-            print(tabulate(commands, headers=["Command", "Description"], tablefmt="psql"))
+            print(tabulate(help_command, headers=["Command", "Description"], tablefmt="psql"))
             print("How to use: https://github.com/Udeus/zabbix-import-hosts")
         elif command == "groups":
             get_groups()
