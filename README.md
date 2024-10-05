@@ -36,6 +36,7 @@ python main.py --url http://192.168.1.105 --token d36cab4cb00097b11bb97739828aed
 |--------------|----------------------------------------|
 | help         | Show all commands                      |
 | groups       | Show all groups and ID                 |
+| hosts        | Show all hosts and ID                  |
 | templates    | Show all templates and ID              |
 | template     | Show ID one template                   |
 | proxies      | Show all proxies                       |
