@@ -28,6 +28,12 @@ def get_groups():
     print(tabulate(response, headers="keys", tablefmt="psql"))
 
 
+def get_hosts_list():
+    api_date = '{"jsonrpc": "2.0","method": "host.get","params": {"output": ["name", "groupid"]},"id": 1}'
+    response = connect_api(api_date)
+    print(tabulate(response, headers="keys", tablefmt="psql"))
+
+
 def get_templates():
     api_date = '{"jsonrpc": "2.0","method": "template.get","params": {"output": ["name", "groupid"]},"id": 1}'
     response = connect_api(api_date)
@@ -190,6 +196,8 @@ if args.token and args.url:
             print("How to use: https://github.com/Udeus/zabbix-import-hosts")
         elif command == "groups":
             get_groups()
+        elif command == "hosts":
+            get_hosts_list()
         elif command == "templates":
             get_templates()
         elif command == "template":
