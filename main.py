@@ -36,7 +36,7 @@ def get_templates():
 
 def get_template():
     template_name = input("Template name: ")
-    api_date = '{"jsonrpc": "2.0","method": "template.get","params": {"output": ["name", "groupid"],"filter": {"host": ["' + template_name + '"]}},"id": 1}'
+    api_date = f'{{"jsonrpc": "2.0","method": "template.get","params": {{"output": ["name", "groupid"],"filter": {{"host": ["{template_name}"]}}}},"id": 1}}'
     response = connect_api(api_date)
     print(tabulate(response, headers="keys", tablefmt="psql"))
 
@@ -116,21 +116,21 @@ def import_hosts():
             if file_address_ip == "" and file_dns == "":
                 interface = ''
             else:
-                interface = ',"interfaces": [{"type": ' + interface_id + ',"main": 1,"useip": ' + str(useip) + ',"ip": "' + file_address_ip + '","dns": "' + file_dns + '","port": "' + str(port) + '" ' + interface_detals + '}]'
+                interface = f',"interfaces": [{{"type": "{interface_id}","main": 1,"useip": "{useip}","ip": "{file_address_ip}","dns": "{file_dns}","port": "{port}" {interface_detals}}}]'
 
             if pd.isna(file_template_id):
                 template = ""
             else:
                 file_template_id = round(file_template_id)
-                template = ',"templates": [{"templateid": "' + str(file_template_id) + '"}]'
+                template = f',"templates": [{{"templateid": "{file_template_id}"}}]'
 
             if pd.isna(file_proxy_id):
                 proxy_id = ""
             else:
                 file_proxy_id = round(file_proxy_id)
-                proxy_id = ', "proxyid": "' + str(file_proxy_id) + '"'
+                proxy_id = f', "proxyid": "{file_proxy_id}"'
 
-            api_data = '{"jsonrpc": "2.0","method": "host.create","params": {"host": "' + file_hostname + '"' + proxy_id + interface + ',"groups": [{"groupid": "' + str(round(file_group)) + '"}]' + template + '},"id": 1}'
+            api_data = f'{{"jsonrpc": "2.0","method": "host.create","params": {{"host": "{file_hostname}"{proxy_id}{interface},"groups": [{{"groupid": "{round(file_group)}"}}]{template}}},"id": 1}}'
             request_header = {'Authorization': 'Bearer ' + api_token, 'Content-Type': 'application/json-rpc'}
             response = requests.post(api_url, data=api_data, headers=request_header)
             response = response.json()
@@ -151,7 +151,7 @@ def import_hosts():
 if args.token and args.url:
     while True:
         api_token = args.token
-        api_url = args.url + "/api_jsonrpc.php"
+        api_url = f'{args.url}/api_jsonrpc.php'
 
         # Check URL API
         try:
