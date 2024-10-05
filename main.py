@@ -51,7 +51,10 @@ def get_template():
     template_name = input("Template name: ")
     api_date = f'{{"jsonrpc": "2.0","method": "template.get","params": {{"output": ["name", "groupid"],"filter": {{"host": ["{template_name}"]}}}},"id": 1}}'
     response = connect_api(api_date)
-    print(tabulate(response, headers="keys", tablefmt="psql"))
+    if response:
+        print(tabulate(response, headers="keys", tablefmt="psql"))
+    else:
+        print("Template not found")
 
 
 def get_proxies():
