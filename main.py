@@ -1,3 +1,4 @@
+import json
 import os
 import requests
 import argparse
@@ -98,7 +99,7 @@ def import_hosts():
         file_dns = row["DNS"]
         file_interface = row["Interface"]
         file_port = row["Port"]
-        file_group = row["Group ID*"]
+        groups = str(row["Group ID*"])
         file_template_id = row["Template ID"]
         file_proxy_id = row["Proxy ID"]
         useip = 1
@@ -107,9 +108,13 @@ def import_hosts():
         interface_detals = ""
 
         # Required hostname and group
-        if pd.isna(file_hostname) or pd.isna(file_group):
+        if pd.isna(file_hostname) or pd.isna(groups):
             break
         else:
+
+            groups = groups.split(';')
+            groups = [{"groupid": num.strip()} for num in groups]
+            groups = json.dumps(groups)
 
             # Check adress ip/dns
             if pd.isna(file_address_ip):
@@ -168,7 +173,7 @@ def import_hosts():
                 file_proxy_id = round(file_proxy_id)
                 proxy_id = f', "proxyid": "{file_proxy_id}"'
 
-            api_data = f'{{"jsonrpc": "2.0","method": "host.create","params": {{"host": "{file_hostname}"{proxy_id}{interface},"groups": [{{"groupid": "{round(file_group)}"}}]{template}}},"id": 1}}'
+            api_data = f'{{"jsonrpc": "2.0","method": "host.create","params": {{"host": "{file_hostname}"{proxy_id}{interface},"groups": {groups}{template}}},"id": 1}}'
             request_header = {'Authorization': 'Bearer ' + api_token, 'Content-Type': 'application/json-rpc'}
             response = requests.post(api_url, data=api_data, headers=request_header)
             response = response.json()
