@@ -6,8 +6,6 @@ from tabulate import tabulate
 terminal_width = os.get_terminal_size().columns
 from utils import zabbix_url
 
-api_url = None
-api_token = None
 help_command = [["help", "Show all commands"], ["groups", "Show all groups and ID"], ["hosts", "Show all hosts and ID"],
                 ["templates", "Show all templates and ID"], ["template", "Show ID one template"],
                 ["proxy groups", "Show all proxy groups"], ["proxies", "Show all proxies"],
