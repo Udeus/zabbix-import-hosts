@@ -4,6 +4,7 @@ import argparse
 import pandas as pd
 from tabulate import tabulate
 terminal_width = os.get_terminal_size().columns
+from utils import zabbix_url
 
 api_url = None
 api_token = None
@@ -17,6 +18,19 @@ parser = argparse.ArgumentParser(description="Zabbix import host | More info: ht
 parser.add_argument("--url", type=str, help="Zabbix url address")
 parser.add_argument("--token", type=str, help="API token")
 args = parser.parse_args()
+
+
+if args.url:
+    api_url = zabbix_url(args.url)
+else:
+    api_url = zabbix_url(input("Zabbix url address: "))
+
+
+if args.token:
+    api_token = args.token
+else:
+    api_token = input("Zabbix API token: ")
+
 
 print(tabulate(help_command, headers=["Command", "Description"], tablefmt="psql"))
 print("How to use: https://github.com/Udeus/zabbix-import-hosts")
@@ -174,10 +188,8 @@ def import_hosts():
                 print("Error")
 
 
-if args.token and args.url:
+if api_token and api_url:
     while True:
-        api_token = args.token
-        api_url = f'{args.url}/api_jsonrpc.php'
 
         # Check URL API
         try:
