@@ -32,18 +32,17 @@ python main.py --url http://192.168.1.105 --token d36cab4cb00097b11bb97739828aed
 
 ## Commands
 
-| Command      | Description                            |
-|--------------|----------------------------------------|
-| help         | Show all commands                      |
-| groups       | Show all groups and ID                 |
-| hosts        | Show all hosts and ID                  |
-| templates    | Show all templates and ID              |
-| template     | Show ID one template                   |
-| proxies      | Show all proxies                       |
-| import hosts | Import hosts from file to Zabbix server |
-| exit         | Close script                           |
-
-
+| Command       | Description                            |
+|---------------|----------------------------------------|
+| help          | Show all commands                      |
+| groups        | Show all groups and ID                 |
+| hosts         | Show all hosts and ID                  |
+| templates     | Show all templates and ID              |
+| template      | Show ID one template                   |
+| proxy groups  |Show all proxy groups                   |
+| proxies       | Show all proxies                       |
+| import hosts  | Import hosts from file to Zabbix server |
+| exit          | Close script                           |
 
 ### License
 
