@@ -9,8 +9,9 @@ api_url = None
 api_token = None
 help_command = [["help", "Show all commands"], ["groups", "Show all groups and ID"], ["hosts", "Show all hosts and ID"],
                 ["templates", "Show all templates and ID"], ["template", "Show ID one template"],
-                ["proxies", "Show all proxies"], ["import hosts", "Import hosts from file to Zabbix server"],
-                ["author", "About author"], ["exit", "Close script"]]
+                ["proxy groups", "Show all proxy groups"], ["proxies", "Show all proxies"],
+                ["import hosts", "Import hosts from file to Zabbix server"], ["author", "About author"],
+                ["exit", "Close script"]]
 
 parser = argparse.ArgumentParser(description="Zabbix import host | More info: https://github.com/Udeus/zabbix-import-hosts/")
 parser.add_argument("--url", type=str, help="Zabbix url address")
@@ -55,6 +56,15 @@ def get_template():
         print(tabulate(response, headers="keys", tablefmt="psql"))
     else:
         print("Template not found")
+
+
+def get_proxies_groups():
+    api_date = '{"jsonrpc": "2.0","method": "proxygroup.get","params": {"output": ["name", "proxy_groupid"]},"id": 1}'
+    response = connect_api(api_date)
+    if response:
+        print(tabulate(response, headers="keys", tablefmt="psql"))
+    else:
+        print("Proxy group not found")
 
 
 def get_proxies():
@@ -211,6 +221,8 @@ if args.token and args.url:
             get_templates()
         elif command == "template":
             get_template()
+        elif command == "proxy groups":
+            get_proxies_groups()
         elif command == "proxies":
             get_proxies()
         elif command == "import hosts":
