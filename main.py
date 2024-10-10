@@ -4,7 +4,6 @@ import requests
 import argparse
 import pandas as pd
 from tabulate import tabulate
-terminal_width = os.get_terminal_size().columns
 from utils import zabbix_url
 
 help_command = [["help", "Show all commands"], ["groups", "Show all groups and ID"], ["hosts", "Show all hosts and ID"],
@@ -18,6 +17,11 @@ parser.add_argument("--url", type=str, help="Zabbix url address")
 parser.add_argument("--token", type=str, help="API token")
 args = parser.parse_args()
 
+
+try:
+    terminal_width = os.get_terminal_size().columns
+except OSError:
+    terminal_width = 80
 
 if args.url:
     api_url = zabbix_url(args.url)
@@ -164,14 +168,12 @@ def import_hosts():
             if pd.isna(file_template_id):
                 template = ""
             else:
-                file_template_id = round(file_template_id)
-                template = f',"templates": [{{"templateid": "{file_template_id}"}}]'
+                template = f',"templates": [{{"templateid": "{round(file_template_id)}"}}]'
 
             if pd.isna(file_proxy_id):
                 proxy_id = ""
             else:
-                file_proxy_id = round(file_proxy_id)
-                proxy_id = f', "proxyid": "{file_proxy_id}"'
+                proxy_id = f', "proxyid": "{round(file_proxy_id)}"'
 
             api_data = f'{{"jsonrpc": "2.0","method": "host.create","params": {{"host": "{file_hostname}"{proxy_id}{interface},"groups": {groups}{template}}},"id": 1}}'
             request_header = {'Authorization': 'Bearer ' + api_token, 'Content-Type': 'application/json-rpc'}
